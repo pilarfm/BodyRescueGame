@@ -1,0 +1,154 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Nave.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Bacteria.tscn" type="PackedScene" id=2]
+[ext_resource path="res://slides/1levelWin.jpg" type="Texture" id=3]
+[ext_resource path="res://Level1.gd" type="Script" id=4]
+[ext_resource path="res://Juego/backgrounds/ojo.jpg" type="Texture" id=5]
+[ext_resource path="res://slides/1levelLoose.jpg" type="Texture" id=6]
+[ext_resource path="res://HUD_game.tscn" type="PackedScene" id=7]
+[ext_resource path="res://slides/1levelStart.jpg" type="Texture" id=8]
+[ext_resource path="res://fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Sound/level_sound.ogg" type="AudioStream" id=10]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0.591694, -527.332, 0, 0, 0, 0, 520.271, -523.466, 0, 0, 0, 0, 517.86, 796.664, 0, 0, 0, 0, 3.00319, 798.597, 0, 0, 0, 0, 1.79748, -523.466, 0, 0, 0, 0, 0.591694, -527.332 )
+}
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 9 )
+
+[node name="Level1" type="Node"]
+script = ExtResource( 4 )
+Bacteria = ExtResource( 2 )
+
+[node name="background" type="TextureRect" parent="."]
+margin_left = -141.454
+margin_top = -8.92612
+margin_right = 705.546
+margin_bottom = 894.074
+rect_scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Nave" parent="." instance=ExtResource( 1 )]
+
+[node name="Bacteria" parent="." instance=ExtResource( 2 )]
+position = Vector2( -38.2424, -15.7367 )
+
+[node name="InicioTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LevelTimer" type="Timer" parent="."]
+wait_time = 40.0
+one_shot = true
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="BacteriaTimer" type="Timer" parent="."]
+wait_time = 0.85
+
+[node name="InitialPosition" type="Position2D" parent="."]
+position = Vector2( 250.42, 361.76 )
+
+[node name="Camino" type="Path2D" parent="."]
+position = Vector2( 0.0383579, 315.995 )
+scale = Vector2( 0.967324, 0.603441 )
+curve = SubResource( 1 )
+
+[node name="BacteriaPosicion" type="PathFollow2D" parent="Camino"]
+position = Vector2( 0.591694, -527.332 )
+rotation = 0.00743528
+
+[node name="LevelWin" type="TextureRect" parent="."]
+visible = false
+margin_left = -1.52
+margin_top = -95.845
+margin_right = 1078.48
+margin_bottom = 1824.16
+rect_scale = Vector2( 0.47, 0.47 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelLoose" type="TextureRect" parent="."]
+visible = false
+margin_left = -1.51965
+margin_top = -96.8449
+margin_right = 1078.48
+margin_bottom = 1823.16
+rect_scale = Vector2( 0.47, 0.47 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextScene" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Change_bacteria" type="Timer" parent="."]
+
+[node name="HUD_game" parent="." instance=ExtResource( 7 )]
+
+[node name="TimerReady" type="Timer" parent="."]
+wait_time = 4.5
+one_shot = true
+
+[node name="Start" type="TextureRect" parent="."]
+visible = false
+margin_left = -23.0632
+margin_top = -92.5344
+margin_right = 1056.94
+margin_bottom = 1827.47
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Again" type="ColorPickerButton" parent="."]
+visible = false
+margin_left = 118.0
+margin_top = 686.0
+margin_right = 377.0
+margin_bottom = 738.0
+disabled = true
+color = Color( 0.905882, 0.870588, 0.713726, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Contenido" type="Label" parent="Again"]
+margin_left = 7.0
+margin_top = 5.0
+margin_right = 160.0
+margin_bottom = 31.0
+rect_scale = Vector2( 1.6, 1.6 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Reintentar"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
+volume_db = -17.444
+[connection signal="hide_HUD" from="." to="HUD_game" method="hide_HUD"]
+[connection signal="hide_bacteria" from="." to="Bacteria" method="_on_Level1_hide_bacteria"]
+[connection signal="start_HUD1" from="." to="HUD_game" method="_on_Level1_start_HUD1"]
+[connection signal="golpe" from="Nave" to="." method="game_over"]
+[connection signal="timeout" from="InicioTimer" to="." method="_on_InicioTimer_timeout"]
+[connection signal="timeout" from="LevelTimer" to="." method="_on_LevelTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="BacteriaTimer" to="." method="_on_BacteriaTimer_timeout"]
+[connection signal="timeout" from="NextScene" to="." method="_on_NextScene_timeout"]
+[connection signal="timeout" from="TimerReady" to="." method="_on_TimerReady_timeout"]
+[connection signal="pressed" from="Again" to="." method="play_again"]

@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Boss.gd" type="Script" id=1]
+[ext_resource path="res://Juego/boss_Angry.png" type="Texture" id=2]
+[ext_resource path="res://Juego/boss_Normal.png" type="Texture" id=3]
+[ext_resource path="res://Juego/boss_dead.png" type="Texture" id=4]
+[ext_resource path="res://Ataque.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sound/punch.ogg" type="AudioStream" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "normal",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "angry",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "dead",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 83.4266
+
+[sub_resource type="Animation" id=3]
+resource_name = "damage"
+length = 0.22
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 10, 10, 10, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.08, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ) ]
+}
+
+[node name="Boss" type="KinematicBody2D"]
+collision_layer = 24
+collision_mask = 24
+script = ExtResource( 1 )
+Attack_thing = ExtResource( 5 )
+life = 20
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -4.57764e-05, 0 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 1 )
+animation = "normal"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.880264, 0.880257 )
+shape = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 24
+collision_mask = 24
+
+[node name="CollisionShapeBoos" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0.880264, 0.880257 )
+shape = SubResource( 2 )
+
+[node name="TimerAttack" type="Timer" parent="."]
+wait_time = 6.0
+
+[node name="TimerAnimation" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/damage = SubResource( 3 )
+
+[node name="punch" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="timeout" from="TimerAttack" to="." method="_on_TimerAttack_timeout"]
+[connection signal="timeout" from="TimerAnimation" to="." method="_on_TimerAnimation_timeout"]

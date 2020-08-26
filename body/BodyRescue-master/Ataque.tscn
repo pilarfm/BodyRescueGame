@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Juego/ataque2.png" type="Texture" id=1]
+[ext_resource path="res://Ataque.gd" type="Script" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "Especial",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 29.7985
+
+[node name="Ataque" type="Area2D"]
+collision_layer = 4100
+collision_mask = 4100
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -1.0413, -0.171434 )
+scale = Vector2( 0.364623, 0.364623 )
+frames = SubResource( 1 )
+animation = "Especial"
+
+[node name="Collision_Ataque" type="CollisionShape2D" parent="."]
+position = Vector2( -0.794434, 0.397217 )
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( -0.754715, 0.943397 )
+scale = Vector2( 3.15092, 3.16979 )
+[connection signal="area_entered" from="." to="." method="_on_Ataque_area_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

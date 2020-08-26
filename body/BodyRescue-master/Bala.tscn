@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Juego/bala.png" type="Texture" id=1]
+[ext_resource path="res://Bala.gd" type="Script" id=2]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 6.55809
+height = 16.3691
+
+[node name="Bala" type="Area2D"]
+position = Vector2( 177.625, 271.516 )
+rotation = 1.5708
+collision_layer = 4106
+collision_mask = 4106
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.123535, 0.0180664 )
+rotation = 1.5708
+scale = Vector2( 0.03, 0.03 )
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.0564785, -0.130541 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="Visibilidad" type="VisibilityNotifier2D" parent="."]
+visible = false
+position = Vector2( -0.202332, -0.149818 )
+rotation = 1.5708
+scale = Vector2( 0.782964, 1.69615 )
+[connection signal="area_entered" from="." to="." method="_on_Bala_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Bala_body_entered"]
+[connection signal="screen_exited" from="Visibilidad" to="." method="_on_Visibilidad_screen_exited"]

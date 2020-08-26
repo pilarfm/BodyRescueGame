@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Interfaz.gd" type="Script" id=1]
+[ext_resource path="res://juego/Body Rescue (1).png" type="Texture" id=2]
+[ext_resource path="res://Gotham Book Regular.otf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 29
+font_data = ExtResource( 3 )
+
+[node name="Interfaz" type="CanvasLayer"]
+script = ExtResource( 1 )
+
+[node name="Fondo" type="TextureRect" parent="."]
+margin_top = 1.0
+margin_right = 502.0
+margin_bottom = 797.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BotonPlay" type="Button" parent="."]
+anchor_right = 0.082
+anchor_bottom = 0.073
+margin_left = 101.0
+margin_top = 312.0
+margin_right = 376.0
+margin_bottom = 330.6
+custom_fonts/font = SubResource( 1 )
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}

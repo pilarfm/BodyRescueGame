@@ -1,0 +1,44 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
+
+[application]
+
+config/name="Body Rescue"
+run/main_scene="res://Mundo.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
+
+[display]
+
+window/size/width=500
+window/size/height=800
+
+[layer_names]
+
+2d_physics/layer_1="Nave - Bacteria"
+2d_physics/layer_2="Bala - Bacteria"
+2d_physics/layer_3="Ataque -  Nave"
+2d_physics/layer_4="Boss - Bala"
+2d_physics/layer_5="Boss - Nave"
+2d_physics/layer_13="Ataque - Bala"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+environment/default_environment="res://default_env.tres"

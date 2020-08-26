@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Mundo.gd" type="Script" id=1]
+[ext_resource path="res://Interfaz.tscn" type="PackedScene" id=2]
+[ext_resource path="res://body.tscn" type="PackedScene" id=3]
+
+[node name="Mundo" type="Node"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -351.481 ]
+}
+Body = ExtResource( 3 )
+
+[node name="Interfaz" parent="." instance=ExtResource( 2 )]
+
+[node name="eyes" type="Node" parent="."]
+[connection signal="iniciar_juego" from="Interfaz" to="." method="_on_Interfaz_iniciar_juego"]

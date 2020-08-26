@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Juego/particles.png" type="Texture" id=1]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.026178, 0.989529 )
+colors = PoolColorArray( 0.251282, 0.699219, 0.699219, 0.973545, 1, 1, 1, 0 )
+
+[node name="ImpulseLadoIzq" type="CPUParticles2D"]
+position = Vector2( 31.1276, -2.54224 )
+scale = Vector2( 0.655521, 0.191478 )
+emitting = false
+amount = 9
+preprocess = 60.0
+randomness = 0.76
+lifetime_randomness = 0.53
+fixed_fps = 30
+local_coords = false
+texture = ExtResource( 1 )
+gravity = Vector2( 98, 0 )
+scale_amount = 1.1
+color_ramp = SubResource( 4 )
+anim_speed = 128.0

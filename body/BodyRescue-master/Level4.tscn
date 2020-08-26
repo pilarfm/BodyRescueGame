@@ -1,0 +1,292 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Juego/backgrounds/fondo7.jpg" type="Texture" id=1]
+[ext_resource path="res://Level4.gd" type="Script" id=2]
+[ext_resource path="res://SNave.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Bacteria.tscn" type="PackedScene" id=4]
+[ext_resource path="res://slides/4levelStart.jpg" type="Texture" id=5]
+[ext_resource path="res://fonts/Knewave-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://slides/4levelLoose.jpg" type="Texture" id=7]
+[ext_resource path="res://HUD_game.tscn" type="PackedScene" id=8]
+[ext_resource path="res://fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Boss.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Bala_plus.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Juego/reloj.png" type="Texture" id=12]
+[ext_resource path="res://slides/Win.png" type="Texture" id=13]
+[ext_resource path="res://slides/4levelWin.png" type="Texture" id=14]
+[ext_resource path="res://Sound/level_sound.ogg" type="AudioStream" id=15]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -0.555359, 0.113968, 0, 0, 0, 0, 502.144, 1.28033, 0, 0, 0, 0, 500.977, 797.901, 0, 0, 0, 0, -1.72168, 799.067, 0, 0, 0, 0, -0.555359, 4.77939, 0, 0, 0, 0, -0.555359, 0.113968 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 56.2294, 74.745, 0, 0, 0, 0, 453.107, 74.7426, 0, 0, 0, 0, 57.3374, 254.246, 0, 0, 0, 0, 448.675, 254.244, 0, 0, 0, 0, 415.687, 238.475, 0, 0, 0, 0, 239.055, 153.415, 0, 0, 0, 0, 56.4304, 72.5265 )
+}
+
+[sub_resource type="DynamicFont" id=3]
+size = 26
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=6]
+font_data = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 9 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "Death_Boss"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Paths:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 800 ) ]
+}
+
+[node name="Level4" type="Node"]
+script = ExtResource( 2 )
+Bacteria = ExtResource( 4 )
+Bala_plus = ExtResource( 11 )
+cantBalasMax = 10
+
+[node name="background" type="TextureRect" parent="."]
+anchor_left = -6.10352e-08
+anchor_right = -6.10352e-08
+anchor_bottom = 3.8147e-08
+margin_left = -463.943
+margin_top = -104.848
+margin_right = 661.057
+margin_bottom = 865.152
+rect_scale = Vector2( 2.2, 2.2 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InitialPosition" type="Position2D" parent="."]
+position = Vector2( 260.097, 396.561 )
+
+[node name="BacteriaTimer" type="Timer" parent="."]
+wait_time = 0.6
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="InicioTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Camino" type="Path2D" parent="."]
+position = Vector2( 1.10803, 0 )
+curve = SubResource( 1 )
+
+[node name="BacteriaPosicion" type="PathFollow2D" parent="Camino"]
+position = Vector2( -0.555359, 0.113968 )
+rotation = 0.00232019
+
+[node name="Nave" parent="." instance=ExtResource( 3 )]
+
+[node name="Prev_level" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="NextScene" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="TimerStart" type="Timer" parent="."]
+wait_time = 4.5
+one_shot = true
+
+[node name="Paths" type="Node2D" parent="."]
+
+[node name="PathBoss" type="Path2D" parent="Paths"]
+position = Vector2( 0, -4.21051 )
+curve = SubResource( 2 )
+
+[node name="PathFollowBoss" type="PathFollow2D" parent="Paths/PathBoss"]
+position = Vector2( 56.2294, 74.745 )
+rotation = -5.83386e-06
+
+[node name="Boss" parent="Paths/PathBoss/PathFollowBoss" instance=ExtResource( 10 )]
+position = Vector2( 198.498, 78.6672 )
+
+[node name="LevelWin" type="TextureRect" parent="."]
+visible = false
+margin_left = -1.52
+margin_top = -94.2583
+margin_right = 1078.48
+margin_bottom = 1825.75
+rect_scale = Vector2( 0.47, 0.47 )
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelLoose" type="TextureRect" parent="."]
+visible = false
+margin_left = -0.353618
+margin_top = -95.845
+margin_right = 1079.65
+margin_bottom = 1824.16
+rect_scale = Vector2( 0.47, 0.47 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="TextureRect" parent="."]
+visible = false
+margin_left = -23.7008
+margin_top = -103.526
+margin_right = 1056.3
+margin_bottom = 1816.47
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD_game" parent="." instance=ExtResource( 8 )]
+
+[node name="Again" type="ColorPickerButton" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -132.0
+margin_top = -114.0
+margin_right = 127.0
+margin_bottom = -61.9999
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+disabled = true
+color = Color( 0.905882, 0.870588, 0.713726, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Contenido" type="Label" parent="Again"]
+margin_left = 7.0
+margin_top = 5.0
+margin_right = 160.0
+margin_bottom = 32.0
+rect_scale = Vector2( 1.6, 1.6 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Reintentar"
+align = 1
+valign = 1
+
+[node name="WinGame" type="TextureRect" parent="."]
+visible = false
+margin_left = -2.95111
+margin_top = -52.0212
+margin_right = 1077.05
+margin_bottom = 1867.98
+rect_scale = Vector2( 0.47, 0.445 )
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tiempo" type="Label" parent="WinGame"]
+margin_left = 379.113
+margin_top = 701.514
+margin_right = 418.113
+margin_bottom = 727.514
+rect_scale = Vector2( 4, 4 )
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "1000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reloj" type="TextureRect" parent="WinGame"]
+margin_left = 240.466
+margin_top = 692.208
+margin_right = 866.466
+margin_bottom = 1318.21
+rect_scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Restart" type="ColorPickerButton" parent="."]
+visible = false
+margin_left = 105.079
+margin_top = 343.294
+margin_right = 394.079
+margin_bottom = 383.294
+custom_fonts/font = SubResource( 6 )
+disabled = true
+text = "Volver a jugar"
+color = Color( 0.905882, 0.870588, 0.713726, 1 )
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Contenido" type="Label" parent="Restart"]
+margin_right = 141.0
+margin_bottom = 20.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Volver a jugar"
+align = 1
+valign = 1
+
+[node name="WinTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="TimerBalaPlus" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="AnimBossDeath" type="AnimationPlayer" parent="."]
+anims/Death_Boss = SubResource( 8 )
+
+[node name="sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 15 )
+[connection signal="hide_HUD" from="." to="HUD_game" method="hide_HUD"]
+[connection signal="start_HUD4" from="." to="HUD_game" method="_on_Level4_start_HUD4"]
+[connection signal="start_boss" from="." to="Paths/PathBoss/PathFollowBoss/Boss" method="set_alive"]
+[connection signal="timeout" from="BacteriaTimer" to="." method="_on_BacteriaTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="InicioTimer" to="." method="_on_InicioTimer_timeout"]
+[connection signal="bala_plus" from="Nave" to="." method="_on_Nave_bala_plus"]
+[connection signal="golpe" from="Nave" to="." method="game_over"]
+[connection signal="shot" from="Nave" to="." method="_on_Nave_shot"]
+[connection signal="timeout" from="Prev_level" to="." method="_on_Prev_level_timeout"]
+[connection signal="timeout" from="NextScene" to="." method="_on_NextScene_timeout"]
+[connection signal="timeout" from="TimerStart" to="." method="_on_TimerStart_timeout"]
+[connection signal="Attack" from="Paths/PathBoss/PathFollowBoss/Boss" to="." method="_on_Boss_Attack"]
+[connection signal="life_modify" from="Paths/PathBoss/PathFollowBoss/Boss" to="." method="life_modify"]
+[connection signal="pressed" from="Again" to="." method="play_again"]
+[connection signal="pressed" from="Restart" to="." method="_on_Restart_pressed"]
+[connection signal="timeout" from="WinTimer" to="." method="_on_WinTimer_timeout"]
+[connection signal="timeout" from="TimerBalaPlus" to="." method="_on_TimerBalaPlus_timeout"]
+[connection signal="animation_finished" from="AnimBossDeath" to="." method="_on_AnimBossDeath_animation_finished"]
